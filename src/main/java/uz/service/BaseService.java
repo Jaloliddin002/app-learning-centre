@@ -4,6 +4,7 @@ package uz.service;
    T - requestDto
    R - responseDto
    I - Id
+   P - Pageable
  */
 import org.springframework.stereotype.Component;
 import uz.dto.response.RestAPIResponse;

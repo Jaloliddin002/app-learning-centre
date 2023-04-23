@@ -40,6 +40,7 @@ public class UserController {
         return ResponseEntity.ok(userService.delete(id));
     }
 
+    @GetMapping()
     public ResponseEntity<RestAPIResponse> getAll (Pageable pageable) {
         return ResponseEntity.ok(userService.getAll(pageable));
     }
