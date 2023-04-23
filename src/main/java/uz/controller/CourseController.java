@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.dto.request.CourseRequestDto;
-import uz.dto.response.CourseResponseDto;
 import uz.dto.response.RestAPIResponse;
 import uz.service.course.CourseService;
 

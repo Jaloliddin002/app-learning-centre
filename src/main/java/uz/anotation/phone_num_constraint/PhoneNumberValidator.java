@@ -3,7 +3,7 @@ package uz.anotation.phone_num_constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
+public class  PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

@@ -34,30 +34,38 @@ public class QueueServiceImp implements QueueService, Response{
     private final CourseRepository courseRepository;
 
     @Override
-    public RestAPIResponse create(QueueRequestDto queueRequestDto) {
-        Optional<CourseEntity> optionalCourse = courseRepository.findById(queueRequestDto.getCourseId());
-        if (optionalCourse.isPresent()) {
-            Optional<UserEntity> optionalUser = userRepository.findById(queueRequestDto.getUserId());
-            if (optionalUser.isPresent()) {
-                QueueEntity queue = new QueueEntity();
-                queue.setCourse(optionalCourse.get());
-                queue.setUser(optionalUser.get());
-                queue.setAppliedDate(LocalDateTime.now());
-                queue.setStatus(Status.PENDING);
-                queueRepository.save(queue);
+    public RestAPIResponse create(QueueRequestDto requestDto) {
+        Optional<UserEntity> optionalUser = userRepository.findById(requestDto.getUserId());
+        if (optionalUser.isPresent()){
+            Optional<CourseEntity> optionalCourse = courseRepository.findById(requestDto.getCourseId());
+            if (optionalCourse.isPresent()){
+                QueueEntity queueEntity = QueueEntity.builder()
+                        .course(optionalCourse.get())
+                        .user(optionalUser.get())
+                        .status(Status.PENDING)
+                        .appliedDate(LocalDateTime.now())
+                        .build();
+                queueRepository.save(queueEntity);
                 return RestAPIResponse.builder()
                         .message(SUCCESSFULLY_SAVED)
                         .success(true)
                         .statusCode(201)
                         .build();
             }
+            return RestAPIResponse.builder()
+                    .message(COURSE + NOT_FOUND)
+                    .success(false)
+                    .statusCode(404)
+                    .build();
         }
         return RestAPIResponse.builder()
-                .message(NOT_FOUND)
+                .message(USER + NOT_FOUND)
                 .success(false)
                 .statusCode(404)
                 .build();
     }
+
+
 
     @Override
     public RestAPIResponse update(Long id, QueueRequestDto queueRequestDto) {
@@ -82,13 +90,12 @@ public class QueueServiceImp implements QueueService, Response{
     @Override
     public RestAPIResponse delete(Long id) {
         Optional<QueueEntity> optionalQueue = queueRepository.findById(id);
-        if (optionalQueue.isPresent()) {
-            QueueEntity queue = optionalQueue.get();
-            queueRepository.delete(queue);
+        if (optionalQueue.isPresent()){
+            queueRepository.delete(optionalQueue.get());
             return RestAPIResponse.builder()
                     .message(SUCCESSFULLY_DELETED)
-                    .statusCode(204)
                     .success(true)
+                    .statusCode(204)
                     .build();
         }
         return RestAPIResponse.builder()

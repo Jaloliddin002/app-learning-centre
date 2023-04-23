@@ -3,6 +3,7 @@ package uz.model.entity.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 @Builder
 public class UserEntity extends Auditable<String> implements UserDetails {
 
@@ -34,7 +36,7 @@ public class UserEntity extends Auditable<String> implements UserDetails {
 
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String password;
 
     private String info;

@@ -31,7 +31,7 @@ public class AuthService {
                 .phoneNumber(request.getPhoneNumber())
                 .gender(Gender.valueOf(request.getGender()))
                 .build();
-        user.setRole(Role.OWNER);
+        user.setRole(Role.STUDENT);
         userRepository.save(user);
         String token = jwtService.generateToken(user);
         return JWTResponse.builder()
